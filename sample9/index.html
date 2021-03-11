@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Vue Router Sample</title>
+    </head>
+    <body>
+        <div id="app">
+            <h1>Vue Router Example</h1>
+            <p>
+                <!-- URL값을 변경하는 태그로 a태그로 변환되어 표시 -->
+                <router-link to='/main'>Go to Main</router-link>
+                <router-link to='/login'>Go to Login</router-link>
+            </p>
+            <!-- URL 값에 따라 갱신되는 화면 영역 -->
+            <router-view></router-view>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+        <script>
+            // component 정의
+            var Main = {template: '<div>Main</div>'};
+            var Login = {template: '<div>Login</div>'};
+
+            // url값에 따라 표시할 컴포넌트 정의 
+            var routes = [
+                { path: '/main', component: Main },
+                { path: '/login', component: Login }
+            ];
+
+            var router = new VueRouter ({
+                mode: 'history', // URL에 해시값(#) 없앨대 사용
+                routes
+            });
+            var app = new Vue({
+                router
+            }).$mount('#app'); // el속성과 같이 인스턴스 화면에 붙여주는 역할
+
+        </script>
+    </body>
+</html>

@@ -2,6 +2,7 @@
 
 
 > ## Directory
+### Chapter3
  - **sample1**
     
     Life-cycle
@@ -18,13 +19,30 @@
 - **sample5**
 
     parent Component =props=> child Component (v-bind)
-
 - **sample6**
+
     child Component =event=> parent Component (v-on / $emit)
 
 - **sample7**
-    Event Bus
 
+    Event Bus
 - **sample8** ( *Exercise* )
+
     parent Component -> child Component -> sibling Component
-    
+
+### Chapter 4
+- **sample9**
+
+    Vue Simple Router
+- **sample10**
+
+    Nested Router
+- **sample11** ( *Exercise* )
+
+    Named View
+- **sample12**
+
+    Get Data With Vue resource
+- **sample13**
+
+    Get Data With Axios
