@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <title>Event Bus</title>
+</head>
+
+<body>
+    <div id="app">
+        <child-component></child-component>
+    </div>
+
+    <script src="http://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        /*
+            Event Bus가 필요한 이유?
+                상-하위 컴포넌트간 데이터 통신이 아닌 같은 레벨상의 컴포넌트간 데이터이동이 필요한 경우
+                직접적인 데이터 통신이 안됨! 따라서 상위컴포넌트로 값을 전달한 후, 상위에서 하위 컴포넌트들에게
+                props를 보내야함.
+                    ==> 이경우 상위컴포넌트가 필요하지않은 컴포넌트끼리 데이터를 주고 받기위해 상위 컴포넌트를 강제로 둬야하는 문제 발생
+        */
+        var eventBus = new Vue();
+        
+        Vue.component('child-component', {
+            template: '<div>하위 컴포넌트 영역입니다. <button v-on:click="showLog">show</button> </div>',
+            methods: {
+                showLog: function() {
+                    eventBus.$emit('triggerEventBus', 100);
+                }
+            }
+        });
+
+        var app = new Vue({
+           el: '#app',
+           created: function() {
+               eventBus.$on('triggerEventBus', function(value){
+                   console.log("이벤트를 전달받음. 전달받은 값 : ", value);
+               })
+           }
+        });
+    </script>
+</body>
+
+</html>

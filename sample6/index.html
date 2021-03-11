@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title>Parent Component / Child Component</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 3. show-log 이벤트가 v-on:show-log에 전달되고, 대상 메서드인 printText가 실행 -->
+        <child-component v-on:show-log="printText"></child-component>
+    </div>
+
+    <script src="http://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        Vue.component('child-component', {
+            // 1. 버튼 클릭시 showLog() 메소드 실행
+            template: '<button v-on:click="showLog">show</button>',
+            methods: {
+                // 2. showLog() 메소드 안에 this.$emit('show-log')가 실행되면서 show-log 이벤트 발생
+                showLog: function() {
+                    this.$emit('show-log');
+                }
+            }
+        });
+
+        new Vue({
+            el: '#app',
+           data: {
+               message: 'This is passed from Parent Component!'
+           },
+           methods: {
+               printText: function(){
+                   console.log("received an event");
+               }
+           }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title>Vue Component Communication Quiz</title>
+</head>
+
+<body>
+    <div id="app">
+        <child-component v-bind:propsdata="message"></child-component>
+        <!-- 3. sibling-component 등록 -->
+        <sibling-component v-bind:propsdata2="anotherMessage"></sibling-component>
+    </div>
+
+    <script src="http://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        // 1. sibling-component이름으로 하는 새로운 컴포넌트 등록
+        // option : template, props
+        Vue.component('sibling-component', {
+            props:['propsdata2'],
+            template: '<p>{{ propsdata2 }}</p>'
+        })
+
+        Vue.component('child-component', {
+            props: ['propsdata'],
+            template: '<p>{{ propsdata }} </p>'
+        });
+
+        var app = new Vue({
+           el: '#app',
+           data: {
+               message: 'This is passed from parent Component',
+               // 2. data 속성을 하나 더 지정하고(ex. anotherMessage) 문자열을 값으로 대입하기
+               // sibling-component에 props로 전달
+               anotherMessage: 'This is passed from child-component'
+           }
+        });
+    </script>
+</body>
+
+</html>
