@@ -1,0 +1,155 @@
+<html>
+
+<head>
+    <title> Vue Template </title>
+</head>
+
+<body>
+    <div id="app">
+        <h1> Vue Template </h1>
+        <p>템플릿에서 사용하는 뷰의 속성과 문법</p>
+
+        <div>
+            <h3>M1. Data Binding</h3>
+            {{ message }}
+            <h4>* v-once 속성 *</h4>
+            <p>v-once 속성은 data가 변경되어도 값이 새로 갱신되지 않는다 </p>
+            <div v-once>{{message}}</div>
+            
+            <h4>* v-bind 속성 *</h4>
+            <div v-bind:id='idA'>id Binding</div>
+            <div v-bind:class='classA'>class Binding</div>
+            <div v-bind:style='styleA'>style Binding</div>
+        </div>
+        
+        <br><br>
+        
+        <div>
+            <h3>M2. Javascript Expression</h3>
+            <p>{{ message }}</p>
+            <p>{{ message + "!!!" }}</p>
+            <p>{{ message.split('').reverse().join('')}}</p>
+            <p>
+                ** 주의할 점 ** <br>
+                1. 선언문, 분기 구문은 사용 불가능<br>
+                2. 복잡한 연산은 인스턴스 안에서 처리하고 화면에는 간단한 연산 결과만 표시
+            </p>
+            <!-- {{ var a = 10; }} --> <!-- 선언문 사용 불가능 -->
+            <!-- {{ if (true) {return 100} }} --> <!-- 분기구문 사용 불가능 -->
+            {{ true ? 100 : 200 }} <!-- 삼항 연산자는 표현 가능 -->
+            
+            <!-- {{ message.split('').reverse().join('')}} --> <!-- 복잡한 연산은 인스턴스에서 수행 -->
+            {{ reversedMessage }}
+        </div>
+        
+        <br><br>
+            
+        <div>
+            <h3>M3. Vue Directive</h3>
+            <p>
+            뷰 디렉티브(vue directive)란? v-접두사를 가진 모든 속성<br>
+            > v-if : 지정 뷰 데이터 값의 참 거짓 여부에 따라 해당 태그를 화면에 표시할 지 말지 정함 <br>
+            > v-for : 지정한 뷰 데이터 개수만큼 해당 태그를 반복 출력<br>
+            > v-show : v-if와 유사하게 표시 여부를 결정하지만, v-if의 경우는 태그를 완전 삭제하는 반면
+             v-show의 경우는 css를 display:none;으로 설정해 태그는 남아 있되, 화면에만 보이지 않음 <br>
+            > v-bind : 태그의 속성과 뷰 데이터 속성을 연결<br>
+            > v-on : 화면 요소의 이벤트를 감지해 처리<br>
+            > v-model : 폼(form)에서 주로 사용되어, 폼에 입력한 값을 뷰 인스턴스 데이터와 즉시 동기화함. input/select/textarea 태그만 사용 가능<br>
+            </p>
+            <a v-if="flag">Do it! Vue.js</a>
+            <ul>
+                <li v-for="system in systems">{{system}}</li>
+            </ul>
+            <p v-show="flag">Do it! Vue.js flag값이 false일 경우 보이지 않음!</p>
+            <h5 v-bind:id="uid">뷰 입문서</h5>
+            <button v-on:click="popupAlert">경고 창 버튼</button>
+        </div>
+        
+        <br><br>
+
+        <div>
+            <h3>M4. Event Handler</h3>
+            <button v-on:click="clickBtn(10)">인수값 넘기기</button>
+            <button v-on:click="clickEvent">이벤트 넘기기</button>
+        </div>
+            
+        <br><br>
+
+        <h1>고급 템플릿 기법</h1>
+        <div>
+            <h3>1. computed 속성</h3>
+            <p>
+                데이터 가공과 같은 복잡한 연산은 뷰 인스턴스 안에서하고 HTML에는 데이터만 표현할 것!<br>
+                computed 속성은 이러한 데이터 연산들을 정의하는 영역<br>
+                <br>
+                장점 1. data 속성 값의 변화에 따라 자동으로 다시 연산 <br>
+                장점 2. 캐싱(동일한 연산 반복을 피하기 위해 연산의 결과 값을 미리 저장하고 필요할 때 불러오는 것)<br>
+                <p>
+                    <div style="color:red;">** computed 속성 vs method 속성 **</div>
+                    methods : 호출할 때만 해당 로직 수행 = 별도의 캐싱X<br>
+                    computed: 대상 데이터의 값이 변경되면 자동 수행<br>
+                </p>
+            </p>
+            <p>{{ message }}</p>
+            <button v-on:click="reverseMsg">문자열 역순</button>
+        </div>
+        
+        <br><br>
+
+        <div>
+            <h3>2. watch 속성</h3>
+            <p>
+                watch속성은 데이터 변화를 감지해 자동으로 특정 로직 수행.<br>
+                computed속성은 내장 API를 활용한 간단한 연산에 적합<br>
+                watch속성은 데이터 호출과 같이 시간이 많이 소모되는 비동기 처리에 적합<br>
+            </p>
+            <input v-model="message">
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: "Hello Vue.js",
+                idA: 10,
+                classA: 'container',
+                styleA: 'color: blue',
+
+                // 디렉티브 
+                flag: true,
+                systems: ['android', 'ios', 'window'],
+                uid: 10
+            },
+            computed: {
+                reversedMessage: function() {
+                    return this.message.split('').reverse().join('');
+                }
+            },
+            methods: {
+                popupAlert: function() {
+                    return alert('경고 창 표시');
+                },
+                clickBtn: function(num) {
+                    // click 이벤트 함수 실행시 인자 값 넘기기
+                    alert('clicked!' + num + "times");
+                },
+                clickEvent: function(event) {
+                    console.log(event);
+                },
+                reverseMsg: function() {
+                    this.message = this.message.split('').reverse().join('');
+                    return this.message;
+                }
+            },
+            watch : {
+                message: function(data) {
+                    console.log("message의 값이 바뀝니다. : ", data);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
